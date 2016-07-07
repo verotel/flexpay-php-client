@@ -1,5 +1,7 @@
 # Verotel FlexPay library
 
+[![Tests Status](https://travis-ci.org/verotel/flexpay-php-client.svg?branch=master)](https://travis-ci.org/verotel/flexpay-php-client)
+
 ## Usage (WIP)
 
 ```
