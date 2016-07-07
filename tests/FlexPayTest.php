@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Flexpay/current/FlexPay.php';
+require_once __DIR__ . '/../FlexPay.php';
 
 class FlexPayTest extends PHPUnit_Framework_TestCase {
 
