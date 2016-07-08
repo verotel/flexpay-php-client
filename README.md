@@ -2,7 +2,7 @@
 
 [![Tests Status](https://travis-ci.org/verotel/flexpay-php-client.svg?branch=master)](https://travis-ci.org/verotel/flexpay-php-client)
 
-## Usage (WIP)
+## Usage
 
 ```
 composer require verotel/flexpay-php-client
