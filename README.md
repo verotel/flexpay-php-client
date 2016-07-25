@@ -1,5 +1,8 @@
 # Verotel FlexPay library
 
+This library allows merchants to use Verotel payment gateway and get paid
+via Credit card and other payment methods.
+
 [![Tests Status](https://travis-ci.org/verotel/flexpay-php-client.svg?branch=master)](https://travis-ci.org/verotel/flexpay-php-client)
 
 ## Usage
