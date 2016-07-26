@@ -5,7 +5,7 @@ by their users via Credit card and other payment methods.
 
 [![Tests Status](https://travis-ci.org/verotel/flexpay-php-client.svg?branch=master)](https://travis-ci.org/verotel/flexpay-php-client)
 
-## Usage
+## Usage / Download
 
 ```
 composer require verotel/flexpay-php-client
