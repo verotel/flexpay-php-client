@@ -11,7 +11,7 @@ by their users via Credit card and other payment methods.
 composer require verotel/flexpay-php-client
 ```
 
-or [⇩ download 3.2.0 release ZIP package directly ⇩](https://github.com/verotel/flexpay-php-client/archive/3.2.0.zip)
+or [download latest release](https://github.com/verotel/flexpay-php-client/releases/tag/latest-release)
 
 
 ## Official Documentation
