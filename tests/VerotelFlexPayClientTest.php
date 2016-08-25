@@ -1,13 +1,18 @@
 <?php
 
-require_once __DIR__ . '/../FlexPay.php';
+require_once __DIR__ . '/../src/Verotel/FlexPay/Client.php';
 
-class FlexPayTest extends PHPUnit_Framework_TestCase {
+class VerotelFlexPayClientTest extends PHPUnit_Framework_TestCase {
 
     function setUp() {
         $this->secret = "zpXwe2D77g4P7ysGJcr3rY87TBYs6J";
+        $this->shopId = '68849';
+        $this->brand = Verotel\FlexPay\Brand::create_from_name('FreenomPay');
+
+        $this->client = new Verotel\FlexPay\Client(
+                                $this->shopId, $this->secret, $this->brand );
+
         $this->params = array(
-            'shopID'            => '68849',
             'saleID'            => '433456',
             'referenceID'       => '5566',
             'priceAmount'       => '0.00',
@@ -27,7 +32,7 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
 
         $this->signOfFiltered = '2e2ab2017f2f649e79a35fa065e89658407a8f69';
         $this->signOfAll = '9c6abde0e9172cb9acd802183a500c7796f48492';
-        $this->baseUrl = 'https://secure.verotel.com/';
+        $this->baseUrl = 'https://secure.freenompay.com/';
 
         $this->urlParamsPurchase
             = "blah=something"
@@ -137,7 +142,7 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
     function test_get_signature__returns_correct_signature() {
         $this->assertEquals(
             $this->signOfFiltered,
-            FlexPay::get_signature( $this->secret, $this->params )
+            $this->client->get_signature( $this->params )
         );
     }
 
@@ -147,7 +152,7 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(
             true,
-            FlexPay::validate_signature( $this->secret, $signedParams )
+            $this->client->validate_signature( $signedParams )
         );
     }
 
@@ -158,7 +163,7 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(
                 $this->baseUrl . 'startorder?' . $this->urlWithBackUrl,
-                FlexPay::get_subscription_URL( $this->secret, $params )
+                $this->client->get_subscription_URL( $params )
         );
     }
 
@@ -170,8 +175,60 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(
             false,
-            FlexPay::validate_signature( $this->secret, $signedParams )
+            $this->client->validate_signature( $signedParams )
         );
+    }
+
+    function test_constructor__raises_if_no_secret() {
+        try {
+            $client = new Verotel\FlexPay\Client( $this->shopId, '' );
+        }
+
+        catch(Verotel\FlexPay\Exception $e) {
+            $this->assertEquals("no secret given", $e->getMessage());
+            return;
+        }
+
+        $this->fail("Expected exception has not been raised");
+    }
+
+    function test_constructor__raises_if_no_shopID() {
+        try {
+            $client = new Verotel\FlexPay\Client( '', $this->secret );
+        }
+
+        catch(Verotel\FlexPay\Exception $e) {
+            $this->assertEquals("no shopID given", $e->getMessage());
+            return;
+        }
+
+        $this->fail("Expected exception has not been raised");
+    }
+
+    function test_get_purchase_URL__raises_if_no_params() {
+        try {
+            $this->client->get_purchase_URL('');
+        }
+
+        catch(Verotel\FlexPay\Exception $e) {
+            $this->assertEquals("no params given", $e->getMessage());
+            return;
+        }
+
+        $this->fail("Expected exception has not been raised");
+    }
+
+    function test_get_purchase_URL__raises_if_invalid_params() {
+        try {
+            $this->client->get_purchase_URL('bla');
+        }
+
+        catch(Verotel\FlexPay\Exception $e) {
+            $this->assertEquals("invalid params", $e->getMessage());
+            return;
+        }
+
+        $this->fail("Expected exception has not been raised");
     }
 
     function test_get_purchase_URL__returns_correct_url() {
@@ -179,7 +236,7 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(
             $this->baseUrl . 'startorder?' . $this->urlParamsPurchase,
-            FlexPay::get_purchase_URL( $this->secret, $this->params )
+            $this->client->get_purchase_URL( $this->params )
         );
     }
 
@@ -190,8 +247,34 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(
             $this->baseUrl . 'startorder?' . $this->urlParamsSomeEmpty,
-            FlexPay::get_purchase_URL( $this->secret, $this->params )
+            $this->client->get_purchase_URL( $this->params )
         );
+    }
+
+    function test_get_subscription_URL__raises_if_no_params() {
+        try {
+            $this->client->get_subscription_URL('');
+        }
+
+        catch(Verotel\FlexPay\Exception $e) {
+            $this->assertEquals("no params given", $e->getMessage());
+            return;
+        }
+
+        $this->fail("Expected exception has not been raised");
+    }
+
+    function test_get_subscription_URL__raises_if_invalid_params() {
+        try {
+            $this->client->get_subscription_URL('bla');
+        }
+
+        catch(Verotel\FlexPay\Exception $e) {
+            $this->assertEquals("invalid params", $e->getMessage());
+            return;
+        }
+
+        $this->fail("Expected exception has not been raised");
     }
 
     function test_get_subscription_URL__returns_correct_url() {
@@ -199,14 +282,40 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(
             $this->baseUrl . 'startorder?' . $this->urlParamsSubscription,
-            FlexPay::get_subscription_URL( $this->secret, $this->params )
+            $this->client->get_subscription_URL( $this->params )
         );
+    }
+
+    function test_get_status_URL__raises_if_no_params() {
+        try {
+            $this->client->get_status_URL('');
+        }
+
+        catch(Verotel\FlexPay\Exception $e) {
+            $this->assertEquals("no params given", $e->getMessage());
+            return;
+        }
+
+        $this->fail("Expected exception has not been raised");
+    }
+
+    function test_get_status_URL_raises_if_invalid_params() {
+        try {
+            $this->client->get_status_URL('bla');
+        }
+
+        catch(Verotel\FlexPay\Exception $e) {
+            $this->assertEquals("invalid params", $e->getMessage());
+            return;
+        }
+
+        $this->fail("Expected exception has not been raised");
     }
 
     function test_get_status_URL__returns_correct_url() {
         $this->assertEquals(
             $this->baseUrl . 'salestatus?' . $this->urlParamsStatus,
-            FlexPay::get_status_URL( $this->secret, $this->params )
+            $this->client->get_status_URL( $this->params )
         );
     }
 };
