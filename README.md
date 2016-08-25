@@ -7,7 +7,7 @@ by their users via Credit card and other payment methods.
 
 ## Official Documentation
 
-Documentation PDF for the library can be found on the [Verotel website](http://www.verotel.com/en/integration.html).
+Documentation PDF for the library can be found on the [Verotel blog](http://blog.verotel.com/downloads/).
 
 ## Installation
 
