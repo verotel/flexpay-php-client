@@ -15,7 +15,7 @@ require_once __DIR__."/Brand.php";
 require_once __DIR__."/Exception.php";
 
 class Client {
-    const PROTOCOL_VERSION  = '3.2';
+    const PROTOCOL_VERSION  = '3.3';
 
     private $brand;
     private $secret;
@@ -161,6 +161,7 @@ class Client {
             | cancelDiscountPercentage
             | type
             | backURL
+            | declineURL
             )$/x';
 
         foreach ($keys as $key) {

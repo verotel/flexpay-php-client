@@ -2,9 +2,6 @@
 
 require_once __DIR__.'/src/Verotel/FlexPay/Client.php';
 
-/**
- * FlexPay PHP library version 3.2
- */
 final class FlexPay {
 
     /**
