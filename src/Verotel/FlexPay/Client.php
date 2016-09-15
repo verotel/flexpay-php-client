@@ -15,7 +15,7 @@ require_once __DIR__."/Brand.php";
 require_once __DIR__."/Exception.php";
 
 class Client {
-    const PROTOCOL_VERSION  = '3.3';
+    const PROTOCOL_VERSION  = '3.4';
 
     private $brand;
     private $secret;
@@ -68,6 +68,14 @@ class Client {
      */
     public function get_status_URL($params) {
         return $this->_generate_URL($this->brand->status_URL(), NULL, $params);
+    }
+
+    /**
+     * @param array $params
+     * @return string upgrade subscription URL
+     */
+    public function get_upgrade_subscription_URL($params) {
+        return $this->_generate_URL($this->brand->flexpay_URL(), 'upgradesubscription', $params);
     }
 
     /**
@@ -162,6 +170,7 @@ class Client {
             | type
             | backURL
             | declineURL
+            | precedingSaleID
             )$/x';
 
         foreach ($keys as $key) {

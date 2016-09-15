@@ -56,6 +56,18 @@ final class FlexPay {
         return $client->get_status_URL($params);
     }
 
+    /**
+     *
+     * @param string $secret
+     * @param array $params
+     * @return string Upgrade Subscription URL
+     */
+    public static function get_upgrade_subscription_URL($secret, $params) {
+        $client = static::_get_flexpay_object($secret, $params);
+        return $client->get_upgrade_subscription_URL($params);
+    }
+
+
     private static function _get_flexpay_object($secret, $params) {
         $shopID = NULL;
         if (is_array($params) && isset($params['shopID'])) {

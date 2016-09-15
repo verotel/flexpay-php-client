@@ -5,7 +5,7 @@ require_once __DIR__ . '/../src/Verotel/FlexPay/Client.php';
 class VerotelFlexPayClientTest extends PHPUnit_Framework_TestCase {
 
     function setUp() {
-        $this->protocolVersion = '3.3';
+        $this->protocolVersion = '3.4';
         $this->secret = "zpXwe2D77g4P7ysGJcr3rY87TBYs6J";
         $this->shopId = '68849';
         $this->brand = Verotel\FlexPay\Brand::create_from_name('FreenomPay');
@@ -266,6 +266,24 @@ class VerotelFlexPayClientTest extends PHPUnit_Framework_TestCase {
                 . '&version=' . $this->protocolVersion
                 . '&signature=' . $signature,
             $this->client->get_status_URL( $this->params )
+        );
+    }
+
+    function test_get_upgrade_subscription_URL__returns_correct_url() {
+        $signedParams = array_merge( $this->params,
+                array(
+                        'type' => 'upgradesubscription',
+                        'version' => $this->protocolVersion,
+                ));
+
+        $signature = $this->client->get_signature( $signedParams );
+
+        $this->assertEquals(
+                $this->baseUrl . 'startorder?' . $this->commonURLParams
+                . '&type=upgradesubscription'
+                . '&version=' . $this->protocolVersion
+                . '&signature=' . $signature,
+                $this->client->get_upgrade_subscription_URL( $this->params )
         );
     }
 };

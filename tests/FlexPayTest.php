@@ -5,7 +5,7 @@ require_once __DIR__ . '/../FlexPay.php';
 class FlexPayTest extends PHPUnit_Framework_TestCase {
 
     function setUp() {
-        $this->protocolVersion = '3.3';
+        $this->protocolVersion = '3.4';
         $this->secret = "zpXwe2D77g4P7ysGJcr3rY87TBYs6J";
         $this->params = array(
             'shopID'            => '68849',
@@ -157,6 +157,21 @@ class FlexPayTest extends PHPUnit_Framework_TestCase {
                 . '&version=' . $this->protocolVersion
                 . '&signature=' . $signature,
             FlexPay::get_status_URL( $this->secret, $this->params )
+        );
+    }
+
+    function test_get_upgrade_subscription_URL__returns_correct_url() {
+        $signedParams = array_merge( $this->params,
+                array('type'   => 'upgradesubscription', 'version' => $this->protocolVersion) );
+
+        $signature = FlexPay::get_signature( $this->secret, $signedParams );
+
+        $this->assertEquals(
+                $this->baseUrl . 'startorder?' . $this->commonURLParams
+                . '&type=upgradesubscription'
+                . '&version=' . $this->protocolVersion
+                . '&signature=' . $signature,
+                FlexPay::get_upgrade_subscription_URL( $this->secret, $this->params )
         );
     }
 };
