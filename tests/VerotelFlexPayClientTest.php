@@ -286,4 +286,18 @@ class VerotelFlexPayClientTest extends PHPUnit_Framework_TestCase {
                 $this->client->get_upgrade_subscription_URL( $this->params )
         );
     }
+
+    function test_get_cancel_subscription_URL__returns_correct_url() {
+        $signedParams = array_merge( $this->params,
+            array('version' => $this->protocolVersion) );
+
+        $signature = $this->client->get_signature( $signedParams );
+
+        $this->assertEquals(
+            $this->baseUrl . 'cancel-subscription?' . $this->commonURLParams
+                . '&version=' . $this->protocolVersion
+                . '&signature=' . $signature,
+            $this->client->get_cancel_subscription_URL( $this->params )
+        );
+    }
 };

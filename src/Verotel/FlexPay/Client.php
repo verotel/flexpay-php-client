@@ -79,6 +79,14 @@ class Client {
     }
 
     /**
+     * @param array $params
+     * @return string cancel subscription URL
+     */
+    public function get_cancel_subscription_URL($params) {
+        return $this->_generate_URL($this->brand->cancel_URL(), NULL, $params);
+    }
+
+    /**
      * Validates signature
      * @param array $params just params allowed with signature
      * @return bool

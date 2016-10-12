@@ -56,6 +56,12 @@ $purchaseUrl = $flexpayClient->get_purchase_URL([
 ]);
 ```
 
+### Obtaining of cancel subscription url
+
+```php
+$cancelUrl = $flexpayClient->get_cancel_subscription_URL([ "saleID" => 12345 ]);
+```
+
 ### Validation of postback parameters
 
 ```php
