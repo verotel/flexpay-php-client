@@ -179,6 +179,7 @@ class Client {
             | backURL
             | declineURL
             | precedingSaleID
+            | upgradeOption
             )$/x';
 
         foreach ($keys as $key) {
