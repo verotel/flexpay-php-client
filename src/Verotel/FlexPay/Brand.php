@@ -8,6 +8,7 @@ class Brand {
         '9804' => 'Verotel',
         '9762' => 'CardBilling',
         '9653' => 'FreenomPay',
+        '9511' => 'Bill',
     );
 
     public static function create_from_merchant_id($merchantID){

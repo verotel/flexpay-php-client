@@ -44,6 +44,19 @@ class VerotelFlexPayBrandTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    function test_create_from_merchant_id__Bill_brand() {
+        $brand = Brand::create_from_merchant_id('9511000000004236');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\Bill', $brand);
+        $this->assertEquals(
+                $brand->flexpay_URL(),
+                'https://secure.bill.creditcard/startorder'
+        );
+        $this->assertEquals(
+                $brand->status_URL(),
+                'https://secure.bill.creditcard/salestatus'
+        );
+    }
+
     function test_create_from_merchant_id__unknown_brand() {
         try {
             $brand = Brand::create_from_merchant_id('1234000000000000');
@@ -69,6 +82,11 @@ class VerotelFlexPayBrandTest extends PHPUnit_Framework_TestCase {
     function test_create_from_name__FreenomPay_brand() {
         $brand = Brand::create_from_name('FreenomPay');
         $this->assertInstanceOf('Verotel\FlexPay\Brand\FreenomPay', $brand);
+    }
+
+    function test_create_from_name__Bill_brand() {
+        $brand = Brand::create_from_name('Bill');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\Bill', $brand);
     }
 
     function test_create_from_name__unknown_brand() {
