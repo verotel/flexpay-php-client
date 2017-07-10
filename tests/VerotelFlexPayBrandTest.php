@@ -4,7 +4,7 @@ require_once __DIR__ . '/../src/Verotel/FlexPay/Brand.php';
 
 use Verotel\FlexPay\Brand;
 
-class VerotelFlexPayBrandTest extends PHPUnit_Framework_TestCase {
+class VerotelFlexPayBrandTest extends PHPUnit\Framework\TestCase {
     function test_create_from_merchant_id__Verotel_brand() {
         $brand = Brand::create_from_merchant_id('9804000000000000');
         $this->assertInstanceOf('Verotel\FlexPay\Brand\Verotel', $brand);
