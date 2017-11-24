@@ -7,8 +7,6 @@ namespace Verotel\FlexPay;
  * This library allows merchants to use Verotel payment gateway
  * and get paid by their users via Credit card and other payment methods.
  *
- * This library could be used also for Cardbilling or FreenomPay brands
- *
  */
 
 require_once __DIR__."/Brand.php";

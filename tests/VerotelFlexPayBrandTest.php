@@ -57,6 +57,19 @@ class VerotelFlexPayBrandTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    function test_create_from_merchant_id__PaintFests_brand() {
+        $brand = Brand::create_from_merchant_id('9444000000000001');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\PaintFest', $brand);
+        $this->assertEquals(
+                $brand->flexpay_URL(),
+                'https://secure.paintfestpayments.com/startorder'
+        );
+        $this->assertEquals(
+                $brand->status_URL(),
+                'https://secure.paintfestpayments.com/salestatus'
+        );
+    }
+
     function test_create_from_merchant_id__unknown_brand() {
         try {
             $brand = Brand::create_from_merchant_id('1234000000000000');
@@ -87,6 +100,11 @@ class VerotelFlexPayBrandTest extends PHPUnit_Framework_TestCase {
     function test_create_from_name__Bill_brand() {
         $brand = Brand::create_from_name('Bill');
         $this->assertInstanceOf('Verotel\FlexPay\Brand\Bill', $brand);
+    }
+
+    function test_create_from_name__PiantFest_brand() {
+        $brand = Brand::create_from_name('PaintFest');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\PaintFest', $brand);
     }
 
     function test_create_from_name__unknown_brand() {
