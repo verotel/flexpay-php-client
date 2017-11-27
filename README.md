@@ -1,38 +1,31 @@
 # Verotel FlexPay library
 
-This library allows merchants to use Verotel payment gateway and get paid
-by their users via Credit card and other payment methods.
-
 [![Tests Status](https://travis-ci.org/verotel/flexpay-php-client.svg?branch=master)](https://travis-ci.org/verotel/flexpay-php-client)
+
+This library allows you to use Verotel payment gateway and accept credit cards and other payment methods on your website.
 
 ## Official Documentation
 
-Documentation PDF for the library can be found on the [Verotel blog](http://blog.verotel.com/downloads/).
+[Documentation for the library can be found on the Control Center website](https://controlcenter.verotel.com/flexpay-doc/).
 
-## Installation
-
-You can use **Composer** or simply **Download the Release**
-
-### Composer
+## Installation via Composer
 
 ```
 composer require verotel/flexpay-php-client
 ```
 
-### Download the latest release
+## Download manually
 
-[download latest release](https://github.com/verotel/flexpay-php-client/releases/tag/latest-release)
+[**Download latest Release**](https://github.com/verotel/flexpay-php-client/releases/tag/latest-release)
 
 ## Usage
 
-### Include
-
-**Composer**
+### Composer
 ```php
 require_once 'vendor/autoload.php';
 ```
 
-**direct require**
+### Direct require
 ```php
 require_once '<path-to-flexpay-php-client>/src/Verotel/FlexPay/Client.php';
 ```
