@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../FlexPay.php';
 
-class FlexPayTest extends PHPUnit_Framework_TestCase {
+class FlexPayTest extends PHPUnit\Framework\TestCase {
 
     function setUp() {
         $this->protocolVersion = '3.4';

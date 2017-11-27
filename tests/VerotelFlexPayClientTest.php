@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../src/Verotel/FlexPay/Client.php';
 
-class VerotelFlexPayClientTest extends PHPUnit_Framework_TestCase {
+class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase {
 
     function setUp() {
         $this->protocolVersion = '3.4';
