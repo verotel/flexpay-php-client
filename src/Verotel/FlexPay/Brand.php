@@ -10,6 +10,7 @@ class Brand {
         '9653' => 'FreenomPay',
         '9511' => 'Bill',
         '9444' => 'PaintFest',
+        '9388' => 'GayCharge',
     );
 
     public static function create_from_merchant_id($merchantID){

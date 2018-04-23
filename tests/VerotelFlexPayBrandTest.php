@@ -70,6 +70,19 @@ class VerotelFlexPayBrandTest extends PHPUnit\Framework\TestCase {
         );
     }
 
+    function test_create_from_merchant_id__GayCharge_brand() {
+        $brand = Brand::create_from_merchant_id('9388000000000001');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\GayCharge', $brand);
+        $this->assertEquals(
+                $brand->flexpay_URL(),
+                'https://secure.gaycharge.com/startorder'
+        );
+        $this->assertEquals(
+                $brand->status_URL(),
+                'https://secure.gaycharge.com/salestatus'
+        );
+    }
+
     function test_create_from_merchant_id__unknown_brand() {
         try {
             $brand = Brand::create_from_merchant_id('1234000000000000');
@@ -105,6 +118,11 @@ class VerotelFlexPayBrandTest extends PHPUnit\Framework\TestCase {
     function test_create_from_name__PiantFest_brand() {
         $brand = Brand::create_from_name('PaintFest');
         $this->assertInstanceOf('Verotel\FlexPay\Brand\PaintFest', $brand);
+    }
+
+    function test_create_from_name__GayCharge_brand() {
+        $brand = Brand::create_from_name('GayCharge');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\GayCharge', $brand);
     }
 
     function test_create_from_name__unknown_brand() {
