@@ -20,7 +20,7 @@ class Client {
     private $shopId;
 
     /**
-     * Construct the FlexPay Client for given brand (Verotel, CardBilling, FreenomPay).
+     * Construct the FlexPay Client for given brand (Verotel, CardBilling, BitsafePay).
      *
      * @param integer $shop_id
      * @param string $secret

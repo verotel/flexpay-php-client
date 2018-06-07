@@ -1,7 +1,7 @@
 {
     "name": "verotel/flexpay-php-client",
     "description": "A client to Verotel FlexPay online payment gateway",
-    "keywords": ["payment", "flexpay", "verotel", "credit card", "cardbilling", "billing.creditcard", "freenom pay"],
+    "keywords": ["payment", "flexpay", "verotel", "credit card", "cardbilling", "billing.creditcard"],
     "homepage": "http://www.verotel.com",
     "license": "MIT",
     "support": {

@@ -33,7 +33,7 @@ require_once '<path-to-flexpay-php-client>/src/Verotel/FlexPay/Client.php';
 ### Construction of client
 
 ```php
-// get your brand instance (Verotel, CardBilling, FreenomPay)
+// get your brand instance
 $brand = Verotel\FlexPay\Brand::create_from_merchant_id(/* Your customer ID */ '9804000000000000');
 
 $flexpayClient = new Verotel\FlexPay\Client(/* shop ID */ 12345, "FlexPay Signature Key", $brand);

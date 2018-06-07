@@ -8,7 +8,7 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase {
         $this->protocolVersion = '3.4';
         $this->secret = "zpXwe2D77g4P7ysGJcr3rY87TBYs6J";
         $this->shopId = '68849';
-        $this->brand = Verotel\FlexPay\Brand::create_from_name('FreenomPay');
+        $this->brand = Verotel\FlexPay\Brand::create_from_name('BitsafePay');
 
         $this->client = new Verotel\FlexPay\Client(
                                 $this->shopId, $this->secret, $this->brand );
@@ -34,7 +34,7 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase {
 
         $this->signOfFiltered = '77ab6c444044bffc8a925c55d31d342096ef9e72';
         $this->signOfAll = '3650ddcc9360de60f4fc78604057c9f3246923cb';
-        $this->baseUrl = 'https://secure.freenompay.com/';
+        $this->baseUrl = 'https://secure.bitsafepay.com/';
 
 
         $this->commonURLParams

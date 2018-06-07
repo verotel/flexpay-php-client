@@ -31,16 +31,16 @@ class VerotelFlexPayBrandTest extends PHPUnit\Framework\TestCase {
         );
     }
 
-    function test_create_from_merchant_id__FreenomPay_brand() {
+    function test_create_from_merchant_id__BitsafePay_brand() {
         $brand = Brand::create_from_merchant_id('9653000000000000');
-        $this->assertInstanceOf('Verotel\FlexPay\Brand\FreenomPay', $brand);
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\BitsafePay', $brand);
         $this->assertEquals(
             $brand->flexpay_URL(),
-            'https://secure.freenompay.com/startorder'
+            'https://secure.bitsafepay.com/startorder'
         );
         $this->assertEquals(
             $brand->status_URL(),
-            'https://secure.freenompay.com/salestatus'
+            'https://secure.bitsafepay.com/salestatus'
         );
     }
 
@@ -105,9 +105,9 @@ class VerotelFlexPayBrandTest extends PHPUnit\Framework\TestCase {
         $this->assertInstanceOf('Verotel\FlexPay\Brand\CardBilling', $brand);
     }
 
-    function test_create_from_name__FreenomPay_brand() {
-        $brand = Brand::create_from_name('FreenomPay');
-        $this->assertInstanceOf('Verotel\FlexPay\Brand\FreenomPay', $brand);
+    function test_create_from_name__BitsafePay_brand() {
+        $brand = Brand::create_from_name('BitsafePay');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\BitsafePay', $brand);
     }
 
     function test_create_from_name__Bill_brand() {

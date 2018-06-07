@@ -7,7 +7,7 @@ class Brand {
     private static $brandByMerchantPrefix = array(
         '9804' => 'Verotel',
         '9762' => 'CardBilling',
-        '9653' => 'FreenomPay',
+        '9653' => 'BitsafePay',
         '9511' => 'Bill',
         '9444' => 'PaintFest',
         '9388' => 'GayCharge',
