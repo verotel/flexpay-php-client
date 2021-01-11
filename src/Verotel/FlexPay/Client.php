@@ -13,7 +13,7 @@ require_once __DIR__."/Brand.php";
 require_once __DIR__."/Exception.php";
 
 class Client {
-    const PROTOCOL_VERSION  = '3.4';
+    const PROTOCOL_VERSION  = '3.5';
 
     private $brand;
     private $secret;
@@ -93,20 +93,21 @@ class Client {
         $inputSignature = strtolower($params['signature']);
         unset($params['signature']);
         $generatedSignature = $this->_signature($params);
-        return ($inputSignature === $generatedSignature);
+        # accept also old sha-1 signature
+        return ($inputSignature === $generatedSignature or $inputSignature === $this->_signature($params, "sha1"));
     }
 
     /**
-     * Generates SHA1 signature
+     * Generates SHA256 signature
      * @param array $params
-     * @return string SHA1 encoded signature
+     * @return string SHA256 encoded signature
      */
     public function get_signature($params) {
         $filtered = $this->_filter_params($params);
         return $this->_signature($filtered);
     }
 
-    private function _signature($params) {
+    private function _signature($params, $alg="sha256") {
         $outArray = array($this->secret);
         if (!isset($params['shopID'])){
             $params['shopID'] = $this->shopId;
@@ -115,7 +116,7 @@ class Client {
         foreach ($params as $key => $value) {
             array_push($outArray, "$key=$value");
         }
-        return strtolower(sha1(join(":", $outArray)));
+        return strtolower(hash($alg, join(":", $outArray)));
     }
 
     private function _generate_URL($baseUrl, $type, $params) {

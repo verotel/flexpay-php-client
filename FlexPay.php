@@ -5,10 +5,10 @@ require_once __DIR__.'/src/Verotel/FlexPay/Client.php';
 final class FlexPay {
 
     /**
-     * Generates SHA1 signature
+     * Generates SHA256 signature
      * @param string $secret
      * @param array $params
-     * @return string SHA1 encoded signature
+     * @return string SHA256 encoded signature
      */
     public static function get_signature($secret, $params) {
         $client = static::_get_flexpay_object($secret, $params);

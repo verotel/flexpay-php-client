@@ -5,7 +5,7 @@ require_once __DIR__ . '/../FlexPay.php';
 class FlexPayTest extends PHPUnit\Framework\TestCase {
 
     function setUp() {
-        $this->protocolVersion = '3.4';
+        $this->protocolVersion = '3.5';
         $this->secret = "zpXwe2D77g4P7ysGJcr3rY87TBYs6J";
         $this->params = array(
             'shopID'            => '68849',
@@ -27,8 +27,9 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
             'blah'                      => 'something',
         );
 
-        $this->signOfFiltered = '77ab6c444044bffc8a925c55d31d342096ef9e72';
-        $this->signOfAll = '3650ddcc9360de60f4fc78604057c9f3246923cb';
+        $this->signOfFiltered = 'c32809a80e3a97d4be5c05b8e241d32141b169c9d7d74294ce50ba313d6817b3';
+        $this->signOfAll = 'a8c18e900fad7af686c3b6dc9f00f197f9d6ea210566ef0d81fb07555f23504d';
+        $this->signOfAll_old_sha1 = '3650ddcc9360de60f4fc78604057c9f3246923cb';
         $this->baseUrl = 'https://secure.verotel.com/';
 
 
@@ -63,6 +64,16 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
     function test_validate_signature__returns_true_if_correct() {
         $signedParams = array_merge( $this->params,
             array( 'signature' => strtoupper($this->signOfAll) ) );
+
+        $this->assertEquals(
+            true,
+            FlexPay::validate_signature( $this->secret, $signedParams )
+        );
+    }
+
+    function test_validate_signature__returns_true_for_old_sha1_signature() {
+        $signedParams = array_merge( $this->params,
+            array( 'signature' => strtoupper($this->signOfAll_old_sha1) ) );
 
         $this->assertEquals(
             true,
