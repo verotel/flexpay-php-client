@@ -4,7 +4,7 @@ require_once __DIR__ . '/../FlexPay.php';
 
 class FlexPayTest extends PHPUnit\Framework\TestCase {
 
-    function setUp() {
+    function setUp() : void {
         $this->protocolVersion = '3.5';
         $this->secret = "zpXwe2D77g4P7ysGJcr3rY87TBYs6J";
         $this->params = array(
