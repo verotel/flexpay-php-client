@@ -11,6 +11,7 @@ class Brand {
         '9511' => 'Bill',
         '9444' => 'PaintFest',
         '9388' => 'GayCharge',
+        '9001' => 'YoursafeDirect',
     );
 
     public static function create_from_merchant_id($merchantID){

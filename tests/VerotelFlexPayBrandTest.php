@@ -70,6 +70,19 @@ class VerotelFlexPayBrandTest extends PHPUnit\Framework\TestCase {
         );
     }
 
+    function test_create_from_merchant_id__YoursafeDirect_brand() {
+        $brand = Brand::create_from_merchant_id('9001000000000001');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\YoursafeDirect', $brand);
+        $this->assertEquals(
+                $brand->flexpay_URL(),
+                'https://secure.yoursafedirect.com/startorder'
+        );
+        $this->assertEquals(
+                $brand->status_URL(),
+                'https://secure.yoursafedirect.com/salestatus'
+        );
+    }
+
     function test_create_from_merchant_id__GayCharge_brand() {
         $brand = Brand::create_from_merchant_id('9388000000000001');
         $this->assertInstanceOf('Verotel\FlexPay\Brand\GayCharge', $brand);
@@ -118,6 +131,11 @@ class VerotelFlexPayBrandTest extends PHPUnit\Framework\TestCase {
     function test_create_from_name__PiantFest_brand() {
         $brand = Brand::create_from_name('PaintFest');
         $this->assertInstanceOf('Verotel\FlexPay\Brand\PaintFest', $brand);
+    }
+
+    function test_create_from_name__YoursafeDirect_brand() {
+        $brand = Brand::create_from_name('YoursafeDirect');
+        $this->assertInstanceOf('Verotel\FlexPay\Brand\YoursafeDirect', $brand);
     }
 
     function test_create_from_name__GayCharge_brand() {
