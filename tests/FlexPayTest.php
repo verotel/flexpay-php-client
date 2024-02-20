@@ -5,7 +5,7 @@ require_once __DIR__ . '/../FlexPay.php';
 class FlexPayTest extends PHPUnit\Framework\TestCase {
 
     function setUp() : void {
-        $this->protocolVersion = '3.5';
+        $this->protocolVersion = '4';
         $this->secret = "zpXwe2D77g4P7ysGJcr3rY87TBYs6J";
         $this->params = array(
             'shopID'            => '68849',
@@ -27,7 +27,7 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
             'blah'                      => 'something',
         );
 
-        $this->signOfFiltered = 'c32809a80e3a97d4be5c05b8e241d32141b169c9d7d74294ce50ba313d6817b3';
+        $this->signOfFiltered = 'fd6ab6c349cf495c1fe685fdc4b369d822c143150c9f0195a54b950c508f50d9';
         $this->signOfAll = 'a8c18e900fad7af686c3b6dc9f00f197f9d6ea210566ef0d81fb07555f23504d';
         $this->signOfAll_old_sha1 = '3650ddcc9360de60f4fc78604057c9f3246923cb';
         $this->baseUrl = 'https://secure.verotel.com/';

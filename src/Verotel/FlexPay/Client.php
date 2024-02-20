@@ -13,7 +13,7 @@ require_once __DIR__."/Brand.php";
 require_once __DIR__."/Exception.php";
 
 class Client {
-    const PROTOCOL_VERSION  = '3.5';
+    const PROTOCOL_VERSION  = '4';
 
     private $brand;
     private $secret;
@@ -156,7 +156,7 @@ class Client {
         return $baseUrl . "?" . http_build_query($params);
     }
 
-    private function _filter_params($params) {
+    function _filter_params($params) {
         $keys = array_keys($params);
         $filtered = array();
         $regexp = '/^(
@@ -175,7 +175,7 @@ class Client {
             | trialPeriod
             | cancelDiscountPercentage
             | type
-            | backURL
+            | successURL
             | declineURL
             | precedingSaleID
             | upgradeOption
