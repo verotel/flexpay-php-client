@@ -1,6 +1,6 @@
 # Verotel FlexPay library
 
-[![Tests Status](https://travis-ci.org/verotel/flexpay-php-client.svg?branch=master)](https://travis-ci.org/verotel/flexpay-php-client)
+![Tests Status](https://github.com/verotel/flexpay-php-client/actions/workflows/php.yml/badge.svg)
 
 This library allows you to use Verotel payment gateway and accept credit cards and other payment methods on your website.
 
