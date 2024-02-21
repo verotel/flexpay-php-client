@@ -16,7 +16,7 @@ composer require verotel/flexpay-php-client
 
 ## Download manually
 
-[**Download latest Release**](https://github.com/verotel/flexpay-php-client/releases/tag/latest-release)
+[**Download latest Release**](https://github.com/verotel/flexpay-php-client/releases/latest)
 
 ## Usage
 
