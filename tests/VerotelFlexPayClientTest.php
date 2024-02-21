@@ -21,8 +21,6 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
         'cancelDiscountPercentage' => '30',
         'blah' => 'something',
     );
-    private $signOfFiltered = 'ff5cf9bcc0497c8cb40087065e5016dcfbe2efd23327f6c67614fa23537c24b2';
-    private $signOfAll = 'ff5cf9bcc0497c8cb40087065e5016dcfbe2efd23327f6c67614fa23537c24b2';
     private $baseUrl = 'https://secure.bitsafepay.com/';
     /**
      * @var \Verotel\FlexPay\Client
@@ -59,10 +57,39 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
         $this->client = new Verotel\FlexPay\Client($this->shopId, $this->secret, $brand);
     }
 
-    function test_get_signature__returns_correct_signature() {
+    function test_get_signature_and_validate() {
+        $signatureSource = [$this->secret];
+        $flexpayParams = [
+            'cancelDiscountPercentage' => '30',
+            'custom1' => 'custom1',
+            'declineURL' => 'http://declineURL.test',
+            'description' => 'My Dščřčřřěřě&?=blah123',
+            'name' => 'My name',
+            'period' => 'P1M',
+            'priceAmount' => '7.00',
+            'priceCurrency' => 'USD',
+            'referenceID' => 'reference1234',
+            'shopID' => $this->shopId,
+            'subscriptionType' => 'RECURRING',
+            'successURL' => 'http://backURL.test',
+            'trialAmount' => '0.01',
+            'trialPeriod' => 'P3D',
+        ];
+
+        foreach ($flexpayParams as $key => $value) {
+            $signatureSource[] = "$key=$value";
+        }
+
+        $expectedSignature = $this->client->get_signature(array_merge($flexpayParams, ["foo" => "bar"]));
         $this->assertEquals(
-            $this->signOfFiltered,
-            $this->client->get_signature($this->params)
+            strtolower(hash("sha256", join(":", $signatureSource))),
+            $expectedSignature
+        );
+
+        $this->assertTrue(
+            $this->client->validate_signature(
+                array_merge($flexpayParams, ["signature" => $expectedSignature])
+            )
         );
     }
 
@@ -75,35 +102,16 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    function test_validate_signature__returns_true_if_correct() {
-        $signedParams = array_merge(
-            $this->client->_filter_params($this->params),
-            ['signature' => 'ff5cf9bcc0497c8cb40087065e5016dcfbe2efd23327f6c67614fa23537c24b2']
-        );
-
-        $this->assertEquals(
-            true,
-            $this->client->validate_signature( $signedParams )
-        );
-    }
-
     function test_validate_signature__returns_true_for_old_sha1_signature() {
-        $signedParams = array_merge( $this->params,
-            array( 'signature' =>  "fc63f38e2722d2e5bc4f2044ad3ffb2051e89643") );
+        $signedParams = array_merge($this->params, ['signature' => "fc63f38e2722d2e5bc4f2044ad3ffb2051e89643"]);
 
-        $this->assertEquals(
-            true,
-            $this->client->validate_signature($signedParams)
-        );
+        $this->assertTrue($this->client->validate_signature($signedParams));
     }
 
     function test_validate_signature__returns_false_if_incorrect() {
         $signedParams = array_merge($this->params, ['custom2' => 'Your', 'signature' => "foo"]);
 
-        $this->assertEquals(
-            false,
-            $this->client->validate_signature($signedParams)
-        );
+        $this->assertFalse($this->client->validate_signature($signedParams));
     }
 
     function test_constructor__raises_if_no_secret() {
@@ -130,7 +138,7 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
 
     function test_get_purchase_URL__raises_if_no_params() {
         try {
-            $this->client->get_purchase_URL('');
+            $this->client->get_purchase_URL([]);
         } catch (Verotel\FlexPay\Exception $e) {
             $this->assertEquals("no params given", $e->getMessage());
             return;
@@ -198,7 +206,7 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
 
     function test_get_subscription_URL__raises_if_no_params() {
         try {
-            $this->client->get_subscription_URL('');
+            $this->client->get_subscription_URL([]);
         } catch (Verotel\FlexPay\Exception $e) {
             $this->assertEquals("no params given", $e->getMessage());
             return;
@@ -234,7 +242,7 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
 
     function test_get_status_URL__raises_if_no_params() {
         try {
-            $this->client->get_status_URL('');
+            $this->client->get_status_URL([]);
         } catch (Verotel\FlexPay\Exception $e) {
             $this->assertEquals("no params given", $e->getMessage());
             return;
@@ -300,5 +308,3 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
         );
     }
 }
-
-;

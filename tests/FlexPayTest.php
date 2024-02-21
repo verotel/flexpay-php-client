@@ -10,7 +10,6 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
         $this->params = array(
             'shopID'            => '68849',
             'saleID'            => '433456',
-            'referenceID'       => '5566',
             'priceAmount'       => '0.00',
             'referenceID'       => 'reference1234',
             'priceCurrency'     => 'USD',
@@ -185,4 +184,4 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
                 FlexPay::get_upgrade_subscription_URL( $this->secret, $this->params )
         );
     }
-};
+}
