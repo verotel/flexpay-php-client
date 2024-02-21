@@ -145,14 +145,12 @@ class VerotelFlexPayBrandTest extends PHPUnit\Framework\TestCase {
 
     function test_create_from_name__unknown_brand() {
         try {
-            $brand = Brand::create_from_name('UnknownBrand');
-        }
-        catch(Verotel\FlexPay\Exception $e) {
+            Brand::create_from_name('UnknownBrand');
+        } catch(Verotel\FlexPay\Exception $e) {
             $this->assertEquals("Invalid brand name", $e->getMessage());
             return;
         }
 
         $this->fail("Expected exception has not been raised");
     }
-};
-
+}

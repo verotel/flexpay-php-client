@@ -156,7 +156,7 @@ class Client {
         return $baseUrl . "?" . http_build_query($params);
     }
 
-    function _filter_params($params) {
+    private function _filter_params($params) {
         $keys = array_keys($params);
         $filtered = array();
         $regexp = '/^(
