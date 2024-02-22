@@ -9,6 +9,7 @@ final class FlexPay {
      * @param string $secret
      * @param array $params
      * @return string SHA256 encoded signature
+     * @deprecated Deprecated in favor of instantiated client interface
      */
     public static function get_signature($secret, $params) {
         $client = static::_get_flexpay_object($secret, $params);
@@ -20,6 +21,7 @@ final class FlexPay {
      * @param string $secret
      * @param array $params just params allowed with signature
      * @return bool
+     * @deprecated Deprecated in favor of instantiated client interface
      */
     public static function validate_signature($secret, $params) {
         $client = static::_get_flexpay_object($secret, $params);
@@ -30,6 +32,7 @@ final class FlexPay {
      * @param string $secret
      * @param array $params
      * @return string Purchase URL
+     * @deprecated Deprecated in favor of instantiated client interface
      */
     public static function get_purchase_URL($secret, $params) {
         $client = static::_get_flexpay_object($secret, $params);
@@ -40,6 +43,7 @@ final class FlexPay {
      * @param string $secret
      * @param array $params
      * @return string subscription URL
+     * @deprecated Deprecated in favor of instantiated client interface
      */
     public static function get_subscription_URL($secret, $params) {
         $client = static::_get_flexpay_object($secret, $params);
@@ -50,6 +54,7 @@ final class FlexPay {
      * @param string $secret
      * @param array $params
      * @return string status URL
+     * @deprecated Deprecated in favor of instantiated client interface
      */
     public static function get_status_URL($secret, $params) {
         $client = static::_get_flexpay_object($secret, $params);
@@ -61,6 +66,7 @@ final class FlexPay {
      * @param string $secret
      * @param array $params
      * @return string Upgrade Subscription URL
+     * @deprecated Deprecated in favor of instantiated client interface
      */
     public static function get_upgrade_subscription_URL($secret, $params) {
         $client = static::_get_flexpay_object($secret, $params);
@@ -72,6 +78,7 @@ final class FlexPay {
      * @param string $secret
      * @param array $params
      * @return string Cancel Subscription URL
+     * @deprecated Deprecated in favor of instantiated client interface
      */
     public static function get_cancel_subscription_URL($secret, $params) {
         $client = static::_get_flexpay_object($secret, $params);

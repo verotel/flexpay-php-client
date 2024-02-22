@@ -49,6 +49,8 @@ class Client {
      * @return string Purchase URL
      */
     public function get_purchase_URL($params) {
+        $params = $this->normalizeObsoleteParams($params);
+
         return $this->_generate_URL($this->brand->flexpay_URL(), 'purchase', $params);
     }
 
@@ -57,6 +59,8 @@ class Client {
      * @return string subscription URL
      */
     public function get_subscription_URL($params) {
+        $params = $this->normalizeObsoleteParams($params);
+
         return $this->_generate_URL($this->brand->flexpay_URL(), 'subscription', $params);
     }
 
@@ -73,6 +77,7 @@ class Client {
      * @return string upgrade subscription URL
      */
     public function get_upgrade_subscription_URL($params) {
+        $params = $this->normalizeObsoleteParams($params);
         return $this->_generate_URL($this->brand->flexpay_URL(), 'upgradesubscription', $params);
     }
 
@@ -188,5 +193,23 @@ class Client {
         }
 
         return $filtered;
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     * @throws Exception
+     */
+    private function normalizeObsoleteParams($params): array {
+        if (!is_array($params)) {
+            throw new Exception("invalid params");
+        }
+
+        if (isset($params['backURL'])) {
+            $params['successURL'] = $params['backURL'];
+            unset($params['backURL']);
+        }
+
+        return $params;
     }
 }

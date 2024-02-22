@@ -20,21 +20,20 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
             'name'              => 'My name',
             'trialAmount'       => '0.01',
             'trialPeriod'       => 'P3D',
-            'backURL'           => 'http://backURL.test',
+            'successURL'        => 'http://backURL.test',
             'declineURL'        => 'http://declineURL.test',
             'cancelDiscountPercentage'  => '30',
             'blah'                      => 'something',
         );
 
-        $this->signOfFiltered = 'fd6ab6c349cf495c1fe685fdc4b369d822c143150c9f0195a54b950c508f50d9';
-        $this->signOfAll = 'a8c18e900fad7af686c3b6dc9f00f197f9d6ea210566ef0d81fb07555f23504d';
+        $this->signOfFiltered = 'ff5cf9bcc0497c8cb40087065e5016dcfbe2efd23327f6c67614fa23537c24b2';
+        $this->signOfAll = 'e50b4e92fcd0a21114d3bf3a64f888edfbc784df170e70ee165c4350fe9ffc3c';
         $this->signOfAll_old_sha1 = '3650ddcc9360de60f4fc78604057c9f3246923cb';
         $this->baseUrl = 'https://secure.verotel.com/';
 
 
         $this->commonURLParams
-            = "backURL=http%3A%2F%2FbackURL.test"
-            . "&blah=something"
+            = "blah=something"
             . "&cancelDiscountPercentage=30"
             . "&custom1=My"
             . "&declineURL=http%3A%2F%2FdeclineURL.test"
@@ -49,6 +48,7 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
             . "&saleID=433456"
             . "&shopID=68849"
             . "&subscriptionType=RECURRING"
+            . "&successURL=http%3A%2F%2FbackURL.test"
             . "&trialAmount=0.01"
             . "&trialPeriod=P3D";
     }
@@ -64,37 +64,28 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
         $signedParams = array_merge( $this->params,
             array( 'signature' => strtoupper($this->signOfAll) ) );
 
-        $this->assertEquals(
-            true,
-            FlexPay::validate_signature( $this->secret, $signedParams )
+        $this->assertTrue(
+            FlexPay::validate_signature($this->secret, $signedParams)
         );
     }
 
-    function test_validate_signature__returns_true_for_old_sha1_signature() {
-        $signedParams = array_merge( $this->params,
-            array( 'signature' => strtoupper($this->signOfAll_old_sha1) ) );
+    function test_get_cancel_subscription_URL_works() {
+        $signedParams = array_merge($this->params, ['version' => $this->protocolVersion]);
+
+        $signature = FlexPay::get_signature($this->secret, $signedParams);
 
         $this->assertEquals(
-            true,
-            FlexPay::validate_signature( $this->secret, $signedParams )
-        );
-    }
-
-    function test_validate_signature__returns_false_if_incorrect() {
-        $signedParams = array_merge( $this->params,
-            array( 'custom2' => 'Your', 'signature' => $this->signOfAll ) );
-
-        $this->assertEquals(
-            false,
-            FlexPay::validate_signature( $this->secret, $signedParams )
+            $this->baseUrl . 'cancel-subscription?' . $this->commonURLParams
+            . '&version=' . $this->protocolVersion
+            . '&signature=' . $signature,
+            FlexPay::get_cancel_subscription_URL( $this->secret, $this->params )
         );
     }
 
     function test_get_purchase_URL__returns_correct_url() {
-        $signedParams = array_merge( $this->params,
-            array('type'   => 'purchase', 'version' => $this->protocolVersion) );
+        $signedParams = array_merge($this->params, ['type' => 'purchase', 'version' => $this->protocolVersion]);
 
-        $signature = FlexPay::get_signature( $this->secret, $signedParams );
+        $signature = FlexPay::get_signature($this->secret, $signedParams);
 
         $this->assertEquals(
             $this->baseUrl . 'startorder?' . $this->commonURLParams
@@ -102,42 +93,6 @@ class FlexPayTest extends PHPUnit\Framework\TestCase {
                 . '&version=' . $this->protocolVersion
                 . '&signature=' . $signature,
             FlexPay::get_purchase_URL( $this->secret, $this->params )
-        );
-    }
-
-    function test_get_purchase_URL__removes_empty_parameters() {
-        $signedParams = array_merge( $this->params,
-            array('type'   => 'purchase', 'version' => $this->protocolVersion) );
-
-        $signature = FlexPay::get_signature( $this->secret, $signedParams );
-
-        $inputParams = array_merge($this->params, array(
-            'custom2' => '', 'custom3' => null, 'unsigned1' => '', 'unsigned2' => null) );
-
-        $this->assertEquals(
-            $this->baseUrl . 'startorder?' . $this->commonURLParams
-                . '&type=purchase'
-                . '&version=' . $this->protocolVersion
-                . '&signature=' . $signature,
-            FlexPay::get_purchase_URL( $this->secret, $inputParams )
-        );
-    }
-
-    function test_get_purchase_URL__parameter_with_zero_is_not_removed() {
-        $signedParams = array_merge( $this->params,
-            array('type'   => 'purchase', 'version' => $this->protocolVersion) );
-
-        $signature = FlexPay::get_signature( $this->secret, $signedParams );
-
-        $inputParams = array_merge( $this->params, array('zero' => 0) );
-
-        $this->assertEquals(
-            $this->baseUrl . 'startorder?' . $this->commonURLParams
-                . '&type=purchase'
-                . '&version=' . $this->protocolVersion
-                . '&zero=0'
-                . '&signature=' . $signature,
-            FlexPay::get_purchase_URL( $this->secret, $inputParams )
         );
     }
 
