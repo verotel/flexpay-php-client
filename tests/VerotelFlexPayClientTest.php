@@ -172,6 +172,19 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
         );
     }
 
+    function test_get_purchase_URL__with_deprecated_backURL_works() {
+        $base = [
+            'description' => 'foo-desc',
+            'priceAmount' => '7.00',
+            'priceCurrency' => 'USD'
+        ];
+
+        $backUrl = $this->client->get_purchase_URL(array_merge($base, ['backURL' => 'http://backURL.test']));
+        $successUrl = $this->client->get_purchase_URL(array_merge($base, ['successURL' => 'http://backURL.test']));
+
+        $this->assertEquals($backUrl, $successUrl);
+    }
+
     function test_get_purchase_URL__removes_empty_parameters() {
         $signedParams = array_merge($this->params, ['type' => 'purchase', 'version' => $this->protocolVersion]);
         $signature = $this->client->get_signature($signedParams);
@@ -295,6 +308,20 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
         );
     }
 
+    function test_get_upgrade_subscription_URL__with_deprecated_backURL_works() {
+        $base = [
+            'description' => 'foo-desc',
+            'priceAmount' => '7.00',
+            'priceCurrency' => 'USD'
+        ];
+
+        $backUrl = $this->client->get_upgrade_subscription_URL(array_merge($base, ['backURL' => 'http://backURL.test']));
+        $successUrl = $this->client->get_upgrade_subscription_URL(array_merge($base, ['successURL' => 'http://backURL.test']));
+
+        $this->assertEquals($backUrl, $successUrl);
+    }
+
+
     function test_get_cancel_subscription_URL__returns_correct_url() {
         $signedParams = array_merge($this->params, ['version' => $this->protocolVersion]);
 
@@ -306,5 +333,18 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
             . '&signature=' . $signature,
             $this->client->get_cancel_subscription_URL($this->params)
         );
+    }
+
+    function test_get_subscription_URL__with_deprecated_backURL_works() {
+        $base = [
+            'description' => 'foo-desc',
+            'priceAmount' => '7.00',
+            'priceCurrency' => 'USD'
+        ];
+
+        $backUrl = $this->client->get_subscription_URL(array_merge($base, ['backURL' => 'http://backURL.test']));
+        $successUrl = $this->client->get_subscription_URL(array_merge($base, ['successURL' => 'http://backURL.test']));
+
+        $this->assertEquals($backUrl, $successUrl);
     }
 }
