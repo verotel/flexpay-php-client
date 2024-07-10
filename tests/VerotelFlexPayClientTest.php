@@ -2,8 +2,7 @@
 
 require_once __DIR__ . '/../src/Verotel/FlexPay/Client.php';
 
-class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
-{
+class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase {
     private $params = array(
         'saleID' => '433456',
         'priceAmount' => '0.00',
@@ -346,5 +345,48 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase
         $successUrl = $this->client->get_subscription_URL(array_merge($base, ['successURL' => 'http://backURL.test']));
 
         $this->assertEquals($backUrl, $successUrl);
+    }
+
+    function test_get_purchase_URL__with_cpsp_fields_works() {
+        $purchase_URL = $this->client->get_purchase_URL(array_merge([
+            'description' => 'foo-desc',
+            'priceAmount' => '7.00',
+            'priceCurrency' => 'USD',
+            'mcc' => '1234',
+            'subCreditorName' => 'Foo sub merchant',
+            'subCreditorId' => '123456',
+            'subCreditorCountry' => 'NL',
+            'paymentMethod' => 'IDEAL',
+        ]));
+
+        $this->assertStringContainsString("mcc", $purchase_URL);
+        $this->assertStringContainsString("subCreditorName", $purchase_URL);
+        $this->assertStringContainsString("subCreditorId", $purchase_URL);
+        $this->assertStringContainsString("subCreditorCountry", $purchase_URL);
+    }
+
+    function test_get_purchase_URL_cpsp_fields_are_signed() {
+        $baseParams = [
+            'description' => 'foo-desc',
+            'priceAmount' => '7.00',
+            'priceCurrency' => 'USD',
+        ];
+        $extraParamItems = [
+            ['mcc' => '1234'],
+            ['subCreditorName' => 'Foo sub merchant'],
+            ['subCreditorId' => '123456'],
+            ['subCreditorCountry' => 'NL'],
+        ];
+        $baseSignature = $this->client->get_signature(
+            array_merge($baseParams)
+        );
+
+        foreach ($extraParamItems as $item) {
+            $cpspSignature = $this->client->get_signature(
+                array_merge($baseParams, $item)
+            );
+
+            $this->assertNotEquals($cpspSignature, $baseSignature);
+        }
     }
 }

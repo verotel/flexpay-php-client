@@ -184,7 +184,11 @@ class Client {
             | declineURL
             | precedingSaleID
             | upgradeOption
-            )$/x';
+            | mcc
+            | subCreditorName
+            | subCreditorId
+            | subCreditorCountry
+        )$/x';
 
         foreach ($keys as $key) {
             if (preg_match($regexp, $key)) {
