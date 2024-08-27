@@ -184,6 +184,27 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase {
         $this->assertEquals($backUrl, $successUrl);
     }
 
+    /**
+     * @dataProvider methodsWithBackUrlCompatibility
+     */
+    function test_empty_backURL_does_not_override_successURL($method_name) {
+        $base = [
+            'description' => 'foo-desc',
+            'priceAmount' => '7.00',
+            'priceCurrency' => 'USD'
+        ];
+
+        $withEmptyBackUrl = $this->client->$method_name(
+            array_merge($base, ['backURL' => '', 'successURL' => 'https://successURL.test'])
+        );
+
+        $onlySuccessUrl = $this->client->$method_name(
+            array_merge($base, ['successURL' => 'https://successURL.test'])
+        );
+
+        $this->assertEquals($onlySuccessUrl, $withEmptyBackUrl);
+    }
+
     function test_get_purchase_URL__removes_empty_parameters() {
         $signedParams = array_merge($this->params, ['type' => 'purchase', 'version' => $this->protocolVersion]);
         $signature = $this->client->get_signature($signedParams);
@@ -388,5 +409,14 @@ class VerotelFlexPayClientTest extends PHPUnit\Framework\TestCase {
 
             $this->assertNotEquals($cpspSignature, $baseSignature);
         }
+    }
+
+    public function methodsWithBackUrlCompatibility(): array
+    {
+        return array(
+            "get_purchase_URL" => array("get_purchase_URL"),
+            "get_subscription_URL" => array("get_subscription_URL"),
+            "get_upgrade_subscription_URL" => array("get_upgrade_subscription_URL"),
+        );
     }
 }
