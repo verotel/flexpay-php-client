@@ -209,7 +209,7 @@ class Client {
             throw new Exception("invalid params");
         }
 
-        if (isset($params['backURL'])) {
+        if (!empty($params['backURL'])) {
             $params['successURL'] = $params['backURL'];
             unset($params['backURL']);
         }
